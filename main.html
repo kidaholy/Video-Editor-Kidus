@@ -5,17 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Video Editing Portfolio</title>
     <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap"
       rel="stylesheet"
     />
     <style>
+      :root {
+        --bg-color: #0d121c;
+        --card-bg: #1a2233;
+        --primary-color: #6a11cb;
+        --secondary-color: #2575fc;
+        --text-color: #e2e8f0;
+        --gradient: linear-gradient(
+          45deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+      }
+
       body {
         margin: 0;
         font-family: "Poppins", sans-serif;
-        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-        color: #fff;
+        background-color: var(--bg-color);
+        color: var(--text-color);
         overflow-x: hidden;
+        line-height: 1.6;
       }
+
       header {
         display: flex;
         align-items: center;
@@ -25,57 +46,158 @@
         position: sticky;
         top: 0;
         z-index: 1000;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
       }
+
       header img {
         height: 50px;
+        filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
       }
+
       header h1 {
         margin: 0;
+        font-family: "Montserrat", sans-serif;
         font-size: 1.8rem;
-        font-weight: 600;
+        font-weight: 700;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
       }
+
       section {
         padding: 80px 50px;
         text-align: center;
       }
+
       h2 {
-        font-size: 2.5rem;
+        font-family: "Montserrat", sans-serif;
+        font-size: 3rem;
         margin-bottom: 20px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        position: relative;
+        display: inline-block;
+        color: #fff;
       }
+
+      h2::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: -10px;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 4px;
+        background: var(--gradient);
+        border-radius: 2px;
+      }
+
+      #about {
+        padding-top: 120px;
+      }
+
+      #about p {
+        max-width: 700px;
+        margin: 0 auto;
+        font-size: 1.1rem;
+        color: #a0aec0;
+      }
+
+      .profile-pic {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 30px;
+        border: 5px solid #fff;
+        box-shadow: 0 0 20px rgba(106, 17, 203, 0.5);
+      }
+
       .projects {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        gap: 20px;
-        margin-top: 40px;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
       }
+
       .card {
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
+        background: var(--card-bg);
+        border-radius: 20px;
         padding: 20px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+          box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         cursor: pointer;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
       }
+
+      .card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      .card:hover::before {
+        opacity: 1;
+      }
+
       .card:hover {
-        transform: translateY(-10px) scale(1.05);
-        box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.5);
+        transform: translateY(-15px) scale(1.03);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
       }
+
       iframe {
         width: 100%;
         height: 315px;
-        border-radius: 12px;
-      }
-      .btn {
-        background: #ff4b2b;
+        border-radius: 15px;
         border: none;
-        padding: 12px 25px;
-        border-radius: 30px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+      }
+
+      .btn {
+        background: var(--gradient);
+        border: none;
+        padding: 15px 35px;
+        border-radius: 50px;
         color: #fff;
         font-weight: 600;
+        font-size: 1.1rem;
         cursor: pointer;
-        transition: background 0.3s ease;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 1px;
       }
+
       .btn:hover {
-        background: #ff416c;
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      }
+
+      .social-links {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        margin-top: 30px;
+      }
+
+      .social-links img {
+        width: 40px;
+        height: 40px;
+        transition: transform 0.3s ease;
+      }
+
+      .social-links img:hover {
+        transform: translateY(-5px) scale(1.1);
       }
     </style>
   </head>
@@ -87,11 +209,15 @@
 
     <section id="about">
       <h2>About Me</h2>
-      <img src="0G4A0204.JPG" alt="Your Picture" style="width: 200px; border-radius: 50%; margin-bottom: 20px;">
+      <img
+        src="0G4A0204.JPG"
+        alt="Your Picture"
+        class="profile-pic"
+      />
       <p>
         I’m a creative video editor skilled in both short-form and long-form
         storytelling. I use Premiere Pro and CapCut to bring engaging stories to
-        life.
+        life, captivating audiences across different platforms.
       </p>
     </section>
 
@@ -99,36 +225,36 @@
       <h2>Short-Form TikTok Edits</h2>
       <div class="projects">
         <div class="card">
-          <blockquote
-            class="tiktok-embed"
-            cite="https://www.tiktok.com/@gold_addis_events_2/video/7539953927337397510"
-            data-video-id="7539953927337397510"
-            allowtransparency="true"
-          ></blockquote>
+          <iframe
+            src="https://www.tiktok.com/embed/7539953927337397510"
+            frameborder="0"
+            allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
         <div class="card">
-          <blockquote
-            class="tiktok-embed"
-            cite="https://www.tiktok.com/@yayamartofficial/video/7479463263026105655"
-            data-video-id="7479463263026105655"
-            allowtransparency="true"
-          ></blockquote>
+          <iframe
+            src="https://www.tiktok.com/embed/7479463263026105655"
+            frameborder="0"
+            allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
         <div class="card">
-          <blockquote
-            class="tiktok-embed"
-            cite="https://www.tiktok.com/@dr.abeldental/video/7539967121917332741"
-            data-video-id="7539967121917332741"
-            allowtransparency="true"
-          ></blockquote>
+          <iframe
+            src="https://www.tiktok.com/embed/7539967121917332741"
+            frameborder="0"
+            allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
         <div class="card">
-          <blockquote
-            class="tiktok-embed"
-            cite="https://www.tiktok.com/@dr.bezunehhundecha/video/7541467327297080632"
-            data-video-id="7541467327297080632"
-            allowtransparency="true"
-          ></blockquote>
+          <iframe
+            src="https://www.tiktok.com/embed/7541467327297080632"
+            frameborder="0"
+            allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          ></iframe>
         </div>
       </div>
     </section>
@@ -141,6 +267,7 @@
             src="https://www.youtube.com/embed/y-EJKSHRTqc"
             frameborder="0"
             allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
         <div class="card">
@@ -148,6 +275,7 @@
             src="https://www.youtube.com/embed/P0APMd1popU"
             frameborder="0"
             allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
         <div class="card">
@@ -155,6 +283,7 @@
             src="https://www.youtube.com/embed/_5f4eXQUdd8"
             frameborder="0"
             allowfullscreen
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           ></iframe>
         </div>
       </div>
@@ -165,24 +294,31 @@
       <button class="btn" id="copyEmail" data-email="your@email.com">
         Copy Email
       </button>
-      <a href="https://t.me/Kidajos" target="_blank">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Telegram_Messenger_logo.svg" alt="Telegram" style="width: 30px; margin-left: 10px;">
-      </a>
+      <div class="social-links">
+        <a href="https://t.me/Kidajos" target="_blank">
+          <img
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6c/Telegram_Messenger_logo.svg"
+            alt="Telegram"
+          />
+        </a>
+      </div>
     </section>
 
-    <script async src="https://www.tiktok.com/embed.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-      gsap.from("header", { duration: 1, y: -80, opacity: 0, ease: "bounce" });
-      gsap.from("h2", { duration: 1, y: 50, opacity: 0, stagger: 0.3 });
-      gsap.from(".card", { duration: 1, y: 100, opacity: 0, stagger: 0.2 });
+      // GSAP Animations
+      gsap.from("header", { duration: 1, y: -80, opacity: 0, ease: "power2.out" });
+      gsap.from("h2", { duration: 1, y: 50, opacity: 0, stagger: 0.3, ease: "power2.out" });
+      gsap.from(".card", { duration: 1.2, y: 100, opacity: 0, stagger: 0.2, ease: "power3.out" });
+      gsap.from(".profile-pic", { duration: 1.5, scale: 0.8, opacity: 0, ease: "power3.out" });
 
+      // Email Copy Functionality
       document
         .getElementById("copyEmail")
         .addEventListener("click", function () {
           const email = this.getAttribute("data-email");
           navigator.clipboard.writeText(email).then(() => {
-            alert("Email copied: " + email);
+            alert("Email copied to clipboard: " + email);
           });
         });
     </script>
