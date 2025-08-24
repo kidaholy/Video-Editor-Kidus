@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Video Editing Portfolio | Interactive Edition</title>
+    <title>Video Editing Portfolio | Cinematic Edition</title>
     <link rel="icon" href="logo.png" type="image/png" />
     <link
       rel="stylesheet"
@@ -32,6 +32,7 @@
 
       * {
         cursor: auto;
+        box-sizing: border-box;
       }
 
       body {
@@ -53,7 +54,11 @@
       }
 
       .cursor {
-        display: none;
+        display: block;
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
       }
       .cursor-dot {
         width: 8px;
@@ -161,12 +166,34 @@
       }
 
       .hero-intro {
-        height: 40vh;
+        height: 80vh;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
-        gap: 40px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: -1;
+        opacity: 0.5;
+      }
+
+      .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(13, 18, 28, 0.7);
+        z-index: 0;
       }
 
       .logo-animation {
@@ -174,14 +201,30 @@
         align-items: center;
         justify-content: center;
         gap: 50px;
+        margin-bottom: 40px;
       }
 
       .logo-animation img {
-        height: 200px;
-        width: 100;
-        opacity: 1; /* Changed from 0 to 1 */
-        transform: scale(1) translateY(0px); /* Adjusted initial scale and position */
-        filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.5));
+        height: 150px;
+        width: 150px;
+        filter: drop-shadow(0 0 20px rgba(37, 117, 252, 0.7));
+        transition: transform 0.5s ease;
+      }
+
+      .logo-animation img:hover {
+        transform: scale(1.2) rotate(360deg);
+      }
+
+      h1 {
+        font-family: "Montserrat", sans-serif;
+        font-size: 4rem;
+        font-weight: 900;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: background-pan 5s linear infinite;
+        background-size: 200%;
+        text-shadow: 0 0 15px var(--glow-color);
       }
 
       h2 {
@@ -250,11 +293,16 @@
         padding: 20px;
         position: relative;
         overflow: hidden;
-        transition: transform 0.1s linear;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
         will-change: transform;
       }
       
-      .card::before { /* Aurora Spotlight */
+      .card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-color);
+      }
+
+      .card::before {
         content: "";
         position: absolute;
         left: var(--x, 50%);
@@ -278,20 +326,10 @@
       .video-container {
         position: relative;
         width: 100%;
-        height: 315px;
         border-radius: 15px;
         overflow: hidden;
       }
 
-      /* TikTok-specific container */
-      #projects .video-container {
-        position: relative;
-        width: 100%;
-        padding-top: 177.77%; /* 16:9 aspect ratio */
-        border-radius: 15px;
-        overflow: hidden;
-      }
-      /* 9:16 is 16/9 * 100 = 177.777% */
       #projects .video-container {
         padding-top: 177.777%;
       }
@@ -307,7 +345,7 @@
         height: 100%;
         border: none;
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-        pointer-events: none; /* Initially disabled */
+        pointer-events: none;
       }
 
       .play-overlay {
@@ -316,7 +354,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(0,0,0,0.3);
+        background: rgba(0, 0, 0, 0.5);
         display: flex;
         justify-content: center;
         align-items: center;
@@ -328,16 +366,15 @@
       .play-overlay svg {
         width: 80px;
         height: 80px;
-        fill: rgba(255,255,255,0.8);
-        filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+        fill: rgba(255, 255, 255, 0.8);
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
         transition: transform 0.3s ease;
       }
       
       .play-overlay:hover svg {
-        transform: scale(1.1);
+        transform: scale(1.2);
       }
       
-      /* State when video is active */
       .card.is-playing .play-overlay {
         opacity: 0;
         pointer-events: none;
@@ -363,13 +400,15 @@
         position: relative;
         overflow: hidden;
         z-index: 1;
+        display: inline-block;
+        text-decoration: none;
       }
       
       .btn:hover {
         transform: translateY(-5px) scale(1.05);
-        box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
       }
-      
+
       .social-links {
         display: flex;
         justify-content: center;
@@ -378,7 +417,12 @@
         margin-top: 40px;
       }
 
-      .social-links a { display: inline-block; transition: transform 0.3s ease; }
+      .social-links a {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.3s ease;
+      }
       
       .social-links img {
         width: 45px;
@@ -386,11 +430,12 @@
         filter: drop-shadow(0 0 8px var(--glow-color));
       }
       
-      .social-links a:hover { transform: translateY(-8px) scale(1.2); }
-      
+      .social-links a:hover {
+        transform: translateY(-8px) scale(1.2);
+      }
+
       .reveal { opacity: 0; transform: translateY(50px); }
 
-      /* Additional CSS for the Go to Site buttons */
       .card-actions {
         margin-top: 20px;
       }
@@ -402,6 +447,45 @@
         margin-top: 10px;
       }
 
+      .contact-form {
+        max-width: 600px;
+        margin: 40px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .contact-form input,
+      .contact-form textarea {
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        background: var(--card-bg);
+        color: var(--text-color);
+        font-size: 1rem;
+        resize: vertical;
+      }
+
+      .contact-form input:focus,
+      .contact-form textarea:focus {
+        outline: none;
+        box-shadow: 0 0 10px var(--glow-color);
+      }
+
+      .contact-form button {
+        align-self: center;
+      }
+
+      .error {
+        border: 2px solid #ff4d4d;
+      }
+
+      .success-message {
+        color: #4caf50;
+        font-weight: 600;
+        text-align: center;
+        opacity: 0;
+      }
     </style>
   </head>
   <body>
@@ -422,27 +506,29 @@
     </header>
 
     <section class="hero-intro">
+      <video class="hero-video" autoplay muted loop>
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-video-of-a-man-in-a-suit-50987-large.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <div class="hero-overlay"></div>
       <div class="logo-animation">
         <img src="premiere-pro-logo.svg" alt="Premiere Pro Logo" id="logo1">
         <img src="capcut-logo.svg" alt="CapCut Logo" id="logo2">
       </div>
-      <h1 class="anim-text">My Video Editing Portfolio</h1>
+      <h1 class="anim-text">Cinematic Video Editing Portfolio</h1>
     </section>
 
     <section id="about">
       <h2 class="anim-text">About Me</h2>
       <img src="0G4A0204.JPG" alt="Your Picture" class="profile-pic reveal"/>
       <p class="reveal">
-        I’m a creative video editor skilled in both short-form and long-form
-        storytelling. I use Premiere Pro and CapCut to bring engaging stories to
-        life, captivating audiences across different platforms.
+        I’m a passionate video editor specializing in crafting compelling short-form and long-form content. With expertise in Adobe Premiere Pro and CapCut, I transform raw footage into cinematic stories that captivate and inspire audiences across platforms.
       </p>
     </section>
 
     <section id="projects">
       <h2 class="anim-text">Short-Form TikTok Edits</h2>
       <div class="projects">
-        
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -454,7 +540,6 @@
             <a href="https://www.tiktok.com/@tiktok/video/7539953927337397510" target="_blank" class="btn magnetic">Go to TikTok</a>
           </div>
         </div>
-        
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -466,7 +551,6 @@
             <a href="https://www.tiktok.com/@tiktok/video/7479463263026105655" target="_blank" class="btn magnetic">Go to TikTok</a>
           </div>
         </div>
-
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -478,7 +562,6 @@
             <a href="https://www.tiktok.com/@tiktok/video/7539967121917332741" target="_blank" class="btn magnetic">Go to TikTok</a>
           </div>
         </div>
-
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -490,14 +573,12 @@
             <a href="https://www.tiktok.com/@tiktok/video/7541467327297080632" target="_blank" class="btn magnetic">Go to TikTok</a>
           </div>
         </div>
-
       </div>
     </section>
 
     <section id="longform">
       <h2 class="anim-text">Long-Form YouTube Edits</h2>
       <div class="projects">
-
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -509,7 +590,6 @@
             <a href="https://www.youtube.com/watch?v=y-EJKSHRTqc" target="_blank" class="btn magnetic">Go to YouTube</a>
           </div>
         </div>
-
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -521,7 +601,6 @@
             <a href="https://www.youtube.com/watch?v=P0APMd1popU" target="_blank" class="btn magnetic">Go to YouTube</a>
           </div>
         </div>
-
         <div class="card reveal">
           <div class="video-container">
             <div class="play-overlay">
@@ -533,173 +612,256 @@
             <a href="https://www.youtube.com/watch?v=_5f4eXQUdd8" target="_blank" class="btn magnetic">Go to YouTube</a>
           </div>
         </div>
-
       </div>
     </section>
 
     <section id="contact">
-      <h2 class="anim-text">Contact Me</h2>
-      <button class="btn magnetic reveal" id="copyEmail" data-email="kidayos2014@email.com">
-        <span>Copy Email</span>
-      </button>
-      <div>
-        
-        <a href="https://t.me/Kidajos" target="_blank">
-          <p class="btn magnetic reveal">Dm Telegram</p>
-          <img src="telegram-svgrepo-com.svg" alt="Telegram" style="width: 45px; height: 45px;"/>
+      <h2 class="anim-text">Get in Touch</h2>
+      <div class="contact-form reveal">
+        <input type="text" id="name" placeholder="Your Name" required />
+        <input type="email" id="email" placeholder="Your Email" required />
+        <textarea id="message" placeholder="Your Message" rows="5" required></textarea>
+        <button class="btn magnetic" id="submitForm">Send Message</button>
+        <p class="success-message" id="successMessage">Message Sent Successfully!</p>
+      </div>
+      <div class="social-links">
+        <a href="https://t.me/Kidajos" target="_blank" class="magnetic">
+          <img src="telegram-svgrepo-com.svg" alt="Telegram" />
+          <span>Telegram</span>
         </a>
+        <button class="btn magnetic" id="copyEmail" data-email="kidayos2014@email.com">
+          <span>Copy Email</span>
+        </button>
       </div>
     </section>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
     <script>
-        gsap.registerPlugin(ScrollTrigger);
+      gsap.registerPlugin(ScrollTrigger);
 
-        // --- PARTICLE BACKGROUND --- //
-        const canvas = document.getElementById('particle-canvas');
-        const ctx = canvas.getContext('2d');
+      // Particle Background
+      const canvas = document.getElementById('particle-canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      let particles = [];
+      const particleOptions = { count: 50, speed: 0.5, maxDist: 150, color: 'rgba(37, 117, 252, 0.5)' };
+      class Particle {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = Math.random() * canvas.height;
+          this.vx = (Math.random() - 0.5) * particleOptions.speed;
+          this.vy = (Math.random() - 0.5) * particleOptions.speed;
+        }
+        update() {
+          this.x += this.vx;
+          this.y += this.vy;
+          if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+          if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = particleOptions.color;
+          ctx.fill();
+        }
+      }
+      function initParticles() {
+        for (let i = 0; i < particleOptions.count; i++) {
+          particles.push(new Particle());
+        }
+      }
+      function animateParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particles.forEach(p => { p.update(); p.draw(); });
+        connectParticles();
+        requestAnimationFrame(animateParticles);
+      }
+      function connectParticles() {
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i; j < particles.length; j++) {
+            const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y);
+            if (dist < particleOptions.maxDist) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(37, 117, 252, ${1 - dist / particleOptions.maxDist})`;
+              ctx.stroke();
+            }
+          }
+        }
+      }
+      window.addEventListener('resize', () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-        let particles = [];
-        const particleOptions = { count: 50, speed: 0.5, maxDist: 150, color: 'rgba(37, 117, 252, 0.5)' };
-        class Particle { /* ... particle logic ... */ 
-            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.vx = (Math.random() - 0.5) * particleOptions.speed; this.vy = (Math.random() - 0.5) * particleOptions.speed; }
-            update() { this.x += this.vx; this.y += this.vy; if (this.x < 0 || this.x > canvas.width) this.vx *= -1; if (this.y < 0 || this.y > canvas.height) this.vy *= -1; }
-            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, 2, 0, Math.PI * 2); ctx.fillStyle = particleOptions.color; ctx.fill(); }
+        particles = [];
+        initParticles();
+      });
+      initParticles();
+      animateParticles();
+
+      // Custom Cursor
+      const cursorDot = document.querySelector('.cursor-dot');
+      const cursorOutline = document.querySelector('.cursor-outline');
+      window.addEventListener('mousemove', (e) => {
+        const { clientX, clientY } = e;
+        gsap.to(cursorDot, { x: clientX, y: clientY, duration: 0.2, ease: 'power2.out' });
+        gsap.to(cursorOutline, { x: clientX, y: clientY, duration: 0.6, ease: 'power2.out' });
+      });
+      document.querySelectorAll('a, button, .magnetic, .play-overlay').forEach(el => {
+        el.addEventListener('mouseenter', () => cursorDot.parentElement.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => cursorDot.parentElement.classList.remove('hovered'));
+      });
+
+      // 3D Card Tilt Effect
+      VanillaTilt.init(document.querySelectorAll('.card'), {
+        max: 15,
+        speed: 400,
+        glare: true,
+        'max-glare': 0.3,
+      });
+
+      // Video Player Activation
+      const playOverlays = document.querySelectorAll('.play-overlay');
+      playOverlays.forEach(overlay => {
+        overlay.addEventListener('click', () => {
+          const allCards = document.querySelectorAll('.card');
+          allCards.forEach(c => {
+            c.classList.remove('is-playing');
+            const iframe = c.querySelector('iframe');
+            if (iframe) {
+              iframe.style.pointerEvents = 'none';
+              iframe.src = iframe.src;
+            }
+          });
+          const card = overlay.closest('.card');
+          card.classList.add('is-playing');
+          const iframe = card.querySelector('iframe');
+          if (iframe) {
+            iframe.style.pointerEvents = 'auto';
+          }
+        });
+      });
+
+      // Magnetic Buttons
+      document.querySelectorAll('.magnetic').forEach(el => {
+        el.addEventListener('mousemove', e => {
+          const rect = el.getBoundingClientRect();
+          const x = e.clientX - rect.left - rect.width / 2;
+          const y = e.clientY - rect.top - rect.height / 2;
+          gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.8, ease: 'power4.out' });
+        });
+        el.addEventListener('mouseleave', () => {
+          gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.5)' });
+        });
+      });
+
+      // GSAP Animations
+      document.querySelectorAll('.anim-text').forEach(textEl => {
+        textEl.innerHTML = textEl.textContent.split('').map(char => `<span>${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+      });
+      gsap.timeline()
+        .to('header', { opacity: 1, duration: 1, y: 0, ease: 'power2.out' })
+        .from('.hero-video', { opacity: 0, scale: 1.2, duration: 2, ease: 'power3.out' }, '-=1')
+        .from('h1 span', { y: 100, opacity: 0, skewX: -30, stagger: 0.03, duration: 0.8, ease: 'power2.out' }, '-=0.5');
+      gsap.utils.toArray('.reveal').forEach(el => {
+        gsap.fromTo(el, { opacity: 0, y: 50, scale: 0.9 }, {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 1.2,
+          ease: 'power3.out',
+          scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+        });
+      });
+      gsap.utils.toArray('h2').forEach(h2 => {
+        gsap.from(h2.querySelectorAll('span'), {
+          y: 100,
+          opacity: 0,
+          skewX: 30,
+          stagger: 0.03,
+          duration: 0.8,
+          ease: 'power2.out',
+          scrollTrigger: { trigger: h2, start: 'top 85%' }
+        });
+      });
+
+      // Logo Animation
+      gsap.fromTo("#logo1", {
+        opacity: 0,
+        scale: 0.5,
+        y: -50,
+        rotation: -180
+      }, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        rotation: 0,
+        duration: 2,
+        ease: "elastic.out(1, 0.5)",
+        delay: 0.5
+      });
+      gsap.fromTo("#logo2", {
+        opacity: 0,
+        scale: 0.5,
+        y: 50,
+        rotation: 180
+      }, {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        rotation: 0,
+        duration: 2,
+        ease: "elastic.out(1, 0.5)",
+        delay: 0.8
+      });
+
+      // Email Copy Functionality
+      const copyBtn = document.getElementById("copyEmail");
+      const originalText = copyBtn.innerHTML;
+      copyBtn.addEventListener("click", function () {
+        const email = this.getAttribute("data-email");
+        navigator.clipboard.writeText(email).then(() => {
+          if (copyBtn.innerHTML !== '<span>Copied! ✔</span>') {
+            copyBtn.innerHTML = '<span>Copied! ✔</span>';
+            gsap.fromTo(copyBtn, { backgroundColor: '#2575fc' }, { backgroundColor: '#6a11cb', duration: 0.3, ease: 'none' });
+            setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000);
+          }
+        });
+      });
+
+      // Contact Form Handling
+      const form = document.querySelector('.contact-form');
+      const submitBtn = document.getElementById('submitForm');
+      const successMessage = document.getElementById('successMessage');
+      submitBtn.addEventListener('click', () => {
+        const name = document.getElementById('name');
+        const email = document.getElementById('email');
+        const message = document.getElementById('message');
+        let isValid = true;
+
+        [name, email, message].forEach(input => {
+          if (!input.value.trim()) {
+            input.classList.add('error');
+            isValid = false;
+          } else {
+            input.classList.remove('error');
+          }
+        });
+
+        if (isValid) {
+          // Simulate form submission
+          gsap.to(form, { opacity: 0, y: -50, duration: 0.5, ease: 'power2.in' });
+          gsap.to(successMessage, { opacity: 1, duration: 0.5, delay: 0.5, ease: 'power2.out' });
+          setTimeout(() => {
+            gsap.to(successMessage, { opacity: 0, duration: 0.5, ease: 'power2.in' });
+            gsap.to(form, { opacity: 1, y: 0, duration: 0.5, ease: 'power2.out', delay: 0.5 });
+            form.reset();
+          }, 3000);
         }
-        function initParticles() { for (let i = 0; i < particleOptions.count; i++) { particles.push(new Particle()); } }
-        function animateParticles() { ctx.clearRect(0, 0, canvas.width, canvas.height); particles.forEach(p => { p.update(); p.draw(); }); connectParticles(); requestAnimationFrame(animateParticles); }
-        function connectParticles() { for (let i = 0; i < particles.length; i++) { for (let j = i; j < particles.length; j++) { const dist = Math.hypot(particles[i].x - particles[j].x, particles[i].y - particles[j].y); if (dist < particleOptions.maxDist) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(37, 117, 252, ${1 - dist / particleOptions.maxDist})`; ctx.stroke(); } } } }
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; particles = []; initParticles(); });
-        initParticles(); animateParticles();
-
-        // --- CUSTOM CURSOR --- //
-        const cursorDot = document.querySelector('.cursor-dot'); const cursorOutline = document.querySelector('.cursor-outline');
-        window.addEventListener('mousemove', (e) => { const { clientX, clientY } = e; gsap.to(cursorDot, { x: clientX, y: clientY, duration: 0.2, ease: 'power2.out' }); gsap.to(cursorOutline, { x: clientX, y: clientY, duration: 0.6, ease: 'power2.out' }); });
-        document.querySelectorAll('a, button, .magnetic, .play-overlay').forEach(el => { el.addEventListener('mouseenter', () => cursorDot.parentElement.classList.add('hovered')); el.addEventListener('mouseleave', () => cursorDot.parentElement.classList.remove('hovered')); });
-
-        // --- 3D "AURORA" CARD EFFECT --- //
-        const allCards = document.querySelectorAll('.card');
-        allCards.forEach(card => {
-            card.addEventListener('mousemove', e => {
-                if (card.classList.contains('is-playing')) return;
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left; const y = e.clientY - rect.top;
-                const centerX = rect.width / 2; const centerY = rect.height / 2;
-                const rotateX = (y - centerY) / 20; const rotateY = (centerX - x) / 20;
-                gsap.to(card, { rotationX: rotateX, rotationY: rotateY, transformPerspective: 1000, scale: 1.05, ease: "power1.out", duration: 0.5 });
-                card.style.setProperty('--x', `${x}px`); card.style.setProperty('--y', `${y}px`);
-            });
-            card.addEventListener('mouseleave', () => {
-                gsap.to(card, { rotationX: 0, rotationY: 0, scale: 1, ease: "elastic.out(1, 0.5)", duration: 1 });
-            });
-        });
-        
-        // --- NEW: VIDEO PLAYER ACTIVATION --- //
-        const playOverlays = document.querySelectorAll('.play-overlay');
-        playOverlays.forEach(overlay => {
-            overlay.addEventListener('click', () => {
-                // Reset all other cards first
-                allCards.forEach(c => {
-                    c.classList.remove('is-playing');
-                    const iframe = c.querySelector('iframe');
-                    if (iframe) {
-                        iframe.style.pointerEvents = 'none';
-                        // Stop video by reloading src
-                        iframe.src = iframe.src;
-                    }
-                });
-
-                // Activate the clicked card
-                const card = overlay.closest('.card');
-                card.classList.add('is-playing');
-                const iframe = card.querySelector('iframe');
-                if (iframe) {
-                    iframe.style.pointerEvents = 'auto';
-                }
-            });
-        });
-
-        // --- MAGNETIC BUTTONS --- //
-        document.querySelectorAll('.magnetic').forEach(el => { el.addEventListener('mousemove', e => { const rect = el.getBoundingClientRect(); const x = e.clientX - rect.left - rect.width / 2; const y = e.clientY - rect.top - rect.height / 2; gsap.to(el, { x: x * 0.3, y: y * 0.3, duration: 0.8, ease: 'power4.out' }); }); el.addEventListener('mouseleave', () => { gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.5)' }); }); });
-
-        // --- GSAP ON-LOAD AND SCROLL ANIMATIONS --- //
-        document.querySelectorAll('.anim-text').forEach(textEl => { textEl.innerHTML = textEl.textContent.split('').map(char => `<span>${char === ' ' ? '&nbsp;' : char}</span>`).join(''); });
-        gsap.timeline().to('header', { opacity: 1, duration: 1, y: 0, ease: 'power2.out' }).from('h1 span', { y: 100, opacity: 0, skewX: -30, stagger: 0.03, duration: 0.8, ease: 'power2.out' }, "-=0.5");
-        gsap.utils.toArray('.reveal').forEach(el => { gsap.fromTo(el, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none', } }); });
-        gsap.utils.toArray('h2').forEach(h2 => { gsap.from(h2.querySelectorAll('span'), { y: 100, opacity: 0, skewX: 30, stagger: 0.03, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: h2, start: 'top 85%', } }); });
-
-        // --- NEW: LOGO ANIMATION --- //
-        gsap.from("#logo1", {
-            opacity: 0,
-            scale: 0.5,
-            y: -50,
-            duration: 1.5,
-            ease: "power4.out",
-            delay: 0.5
-        });
-        gsap.from("#logo2", {
-            opacity: 0,
-            scale: 0.5,
-            y: 50,
-            duration: 1.5,
-            ease: "power4.out",
-            delay: 0.8
-        });
-
-        // --- ENHANCED EMAIL COPY FUNCTIONALITY --- //
-        const copyBtn = document.getElementById("copyEmail"); const originalText = copyBtn.innerHTML;
-        copyBtn.addEventListener("click", function () { const email = this.getAttribute("data-email"); navigator.clipboard.writeText(email).then(() => { if (copyBtn.innerHTML !== '<span>Copied! ✔</span>') { copyBtn.innerHTML = '<span>Copied! ✔</span>'; gsap.fromTo(copyBtn, {backgroundColor: '#2575fc'}, {backgroundColor: '#6a11cb', duration: 0.3, ease: 'none'}); setTimeout(() => { copyBtn.innerHTML = originalText; }, 2000); } }); });
+      });
     </script>
   </body>
-</html> 
-<script>
-        const logo2 = document.getElementById("logo2");
-
-        gsap.fromTo(logo1, {
-            opacity: 0,
-            scale: 0.5,
-            y: -50,
-            rotation: -180,
-        }, {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            rotation: 0,
-            duration: 2,
-            ease: "elastic.out(1, 0.5)",
-            delay: 0.5
-        });
-
-        gsap.fromTo(logo2, {
-            opacity: 0,
-            scale: 0.5,
-            y: 50,
-            rotation: 180,
-        }, {
-            opacity: 1,
-            scale: 1,
-            y: 0,
-            rotation: 0,
-            duration: 2,
-            ease: "elastic.out(1, 0.5)",
-            delay: 0.8
-        });
-
-        gsap.fromTo(".anim-text", {
-            opacity: 0,
-            y: 50,
-            scale: 0.8
-        }, {
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 1.5,
-            ease: "power3.out",
-            delay: 1
-        });
-    </script>
-  </body>
-</html> 
-
+</html>
